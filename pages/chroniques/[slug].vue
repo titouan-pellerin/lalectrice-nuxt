@@ -19,7 +19,7 @@
             Genres :
             <p v-for="genre in book.genres" :key="genre.id">{{ genre.nom }}</p>
         </div>
-        <img v-if="book.couverture" :src="config.API_URL + book.couverture?.url" />
+        <img v-if="book.couverture" :src="book.couverture?.url" />
         <div v-if="book.chronique">
             <h1>Chronique :</h1>
             <p>{{ book.chronique.contenu }}</p>
@@ -44,8 +44,8 @@ export default defineComponent({
         const config = useRuntimeConfig();
 
         const { data: book } = await useFetch(config.API_URL + '/livres?slug=' + useRoute().params.slug) as AsyncData<ILivre[]>;
-        if (book && book.value.length === 1) return { book: book.value[0], config };
-        return { book: null, config };
+        if (book && book.value.length === 1) return { book: book.value[0] };
+        return { book: null };
     },
 
 })

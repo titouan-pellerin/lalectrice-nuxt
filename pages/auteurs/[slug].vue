@@ -4,7 +4,7 @@
         <p v-if="author.description">Description : {{ author.description }}</p>
         <p v-if="author.biographie">Biographie : {{ author.biographie }}</p>
         <p v-if="author.nationalite">Nationalité : {{ author.nationalite }}</p>
-        <img v-if="author.photo" :src="config.API_URL + author.photo.url" />
+        <img v-if="author.photo" :src="author.photo.url" />
         <div class="chroniques">
             <ul v-if="author.livres">
                 <li v-for="livre in author.livres" :key="livre.id">
@@ -28,8 +28,8 @@ export default defineComponent({
         const config = useRuntimeConfig();
 
         const { data: author } = await useFetch(config.API_URL + '/auteurs?slug=' + useRoute().params.slug) as AsyncData<IAuteur[]>;
-        if (author && author.value.length === 1) return { author: author.value[0], config };
-        return { author: null, config };
+        if (author && author.value.length === 1) return { author: author.value[0] };
+        return { author: null };
     },
 })
 </script>
