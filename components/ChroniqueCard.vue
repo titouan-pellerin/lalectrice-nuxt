@@ -1,28 +1,23 @@
 <template>
   <nuxt-link :to="'/chroniques/' + book.slug">
-    <img :src="coverUrl" />
+    <img v-if="book.couverture" :src="book.couverture.url" />
+    <img v-else src="@/assets/img/placeholder.jpg" />
     <h2>{{ book.titre }}</h2>
   </nuxt-link>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import { ILivre } from "~~/typings";
 
 export default defineComponent({
   props: {
     book: {
-      type: Object,
+      type: Object as PropType<ILivre>,
       required: true,
     },
   },
   setup() {},
-  computed: {
-    coverUrl() {
-      return this.book.couverture
-        ? this.book.couverture.url
-        : "../assets/img/placeholder.jpg";
-    },
-  },
 });
 </script>
 
