@@ -1,4 +1,6 @@
-<template>Atelier d'écriture - Index</template>
+<template>
+  <div>Atelier d'écriture - Index</div>
+</template>
 
 <script lang="ts">
 import { defineComponent } from "vue";

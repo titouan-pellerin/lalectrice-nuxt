@@ -43,6 +43,17 @@ import { ILivre } from "~~/typings";
 export default defineComponent({
   async setup() {
     const config = useRuntimeConfig();
+    const books = useBooks();
+    const routeSlug = useRoute().params.slug;
+
+    let filteredBooks: ILivre[] | null = null;
+    if (books && books.value.length > 0) {
+      filteredBooks = books.value.filter((book) => book.slug === routeSlug);
+    }
+
+    if (filteredBooks && filteredBooks.length === 1) {
+      return { book: filteredBooks[0] };
+    }
 
     const { data: book } = (await useFetch(
       config.API_URL + "/livres?slug=" + useRoute().params.slug

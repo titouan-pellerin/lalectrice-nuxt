@@ -1,4 +1,6 @@
-<template>Interviews - Index</template>
+<template>
+  <div>Interviews - Index</div>
+</template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
