@@ -9,8 +9,8 @@ import { IEditeur } from './editeur';
  */
 export interface ILivre {
   id: string;
-  titre?: string;
-  slug?: string;
+  titre: string;
+  slug: string;
   auteurs: IAuteur[];
   pages?: number;
   isbn: string;
@@ -19,7 +19,7 @@ export interface ILivre {
   };
   collection_livre?: ICollection;
   editeur?: IEditeur;
-  chronique?: IChronique;
+  chronique: IChronique;
   genres: IGenre[];
   date?: Date;
   description?: string;

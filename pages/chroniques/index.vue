@@ -1,29 +1,61 @@
 <template>
-    <div class="chroniques">
-        <h1>Chroniques</h1>
-        <ul v-for="book in books" :key="book.id">
-            <li>
-                <nuxt-link
-                    :to="'/chroniques/' + book.slug"
-                >{{ book.titre }} - {{ book.chronique?.publication }}</nuxt-link>
-            </li>
-        </ul>
-    </div>
+  <div class="chroniques">
+    <h1>Chroniques</h1>
+    <input
+      v-model="searchQuery"
+      type="text"
+      placeholder="Rechercher une chronique par mot clé"
+      @input="$searchBooks(searchQuery)"
+    />
+    <ul>
+      <li v-for="book in books" :key="book.id">
+        <chronique-card :book="book"></chronique-card>
+      </li>
+    </ul>
+    <button @click="$fetchBooks()">Voir plus</button>
+  </div>
 </template>
 
 <script lang="ts">
-import { AsyncData } from 'nuxt3/dist/app/composables/asyncData';
-import { defineComponent } from 'vue';
-import { ILivre } from '~~/typings';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-    async setup() {
-        const config = useRuntimeConfig();
-
-        const { data: books } = await useFetch(config.API_URL + '/livres?_limit=800&_sort=chronique.publication:ASC', { key: 'chroniques' }) as AsyncData<ILivre[]>;
-        if (books.value && books.value.length > 0) return { books, config };
-        return { books: null, config };
-    },
-
-})
+  async setup() {
+    let books = useBooks();
+    if (books.value.length === 0) {
+      books = await useNuxtApp().$fetchBooks();
+    }
+    return { books };
+  },
+  data() {
+    return {
+      searchQuery: "",
+    };
+  },
+});
 </script>
+
+<style lang="scss" scoped>
+.chroniques {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    justify-content: center;
+  }
+
+  li {
+    margin: 10px;
+  }
+}
+
+button {
+  border: 0;
+  padding: 10px;
+  cursor: pointer;
+}
+</style>
