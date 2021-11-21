@@ -6,8 +6,8 @@ import {
 } from "./../composables/books";
 import { ILivre } from "~~/typings";
 import { defineNuxtPlugin } from "#app";
-
-import * as qs from "qs";
+import { stringify } from "qs";
+import { Ref } from "vue";
 
 export default defineNuxtPlugin((nuxtApp) => {
   const books = useBooks();
@@ -30,7 +30,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     searchQuery = searchQuery.trim();
 
     if (!(currentQueryString.value === searchQuery)) {
-      query.value = qs.stringify({
+      query.value = stringify({
         _limit: 20,
         _start: 0,
         _sort: "chronique.publication:DESC",
@@ -60,7 +60,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.provide("removeBooks", () => {
     books.value = [];
-    query.value = qs.stringify({
+    query.value = stringify({
       _limit: 20,
       _start: 0,
       _sort: "chronique.publication:DESC",

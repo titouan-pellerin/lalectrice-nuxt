@@ -1,6 +1,6 @@
 <template>
   <nuxt-link :to="'/chroniques/' + book.slug">
-    <img :src="book.couverture ? book.couverture.url : 'assets/img/placeholder.jpg'" />
+    <img :src="coverUrl" />
     <h2>{{ book.titre }}</h2>
   </nuxt-link>
 </template>
@@ -16,6 +16,13 @@ export default defineComponent({
     },
   },
   setup() {},
+  computed: {
+    coverUrl() {
+      return this.book.couverture
+        ? this.book.couverture.url
+        : "../assets/img/placeholder.jpg";
+    },
+  },
 });
 </script>
 
