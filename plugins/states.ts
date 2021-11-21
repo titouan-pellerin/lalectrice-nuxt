@@ -29,7 +29,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.provide("searchBooks", async (searchQuery: string) => {
     searchQuery = searchQuery.trim();
 
-    if (!(currentQueryString.value === searchQuery)) {
+    if (!(currentQueryString.value === searchQuery) && searchQuery.length > 0) {
       query.value = stringify({
         _limit: 20,
         _start: 0,
@@ -60,6 +60,7 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   nuxtApp.provide("removeBooks", () => {
     books.value = [];
+    offset.value = 0;
     query.value = stringify({
       _limit: 20,
       _start: 0,

@@ -21,6 +21,11 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   async setup() {
+    const route = useRoute();
+    const router = useRouter();
+
+    // if (route.meta.fromHistory) useNuxtApp().$removeBooks();
+
     let books = useBooks();
     if (books.value.length === 0) {
       books = await useNuxtApp().$fetchBooks();
