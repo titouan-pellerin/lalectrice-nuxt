@@ -5,10 +5,19 @@
     <p v-if="author.biographie">Biographie : {{ author.biographie }}</p>
     <p v-if="author.nationalite">Nationalité : {{ author.nationalite }}</p>
     <img v-if="author.photo" :src="author.photo.url" />
-    <div class="chroniques">
+    <div class="author-books">
+      <h2>Livres chroniqués :</h2>
       <ul v-if="author.livres">
-        <li v-for="livre in author.livres" :key="livre.id">
-          <router-link :to="'/chroniques/' + livre.slug">{{ livre.titre }}</router-link>
+        <li v-for="book in author.livres" :key="book.id">
+          <chronique-card :book="book"></chronique-card>
+        </li>
+      </ul>
+    </div>
+    <div class="author-interview">
+      <h2>Interviews :</h2>
+      <ul v-if="author.interviews">
+        <li v-for="interview in author.interviews" :key="interview.id">
+          <nuxt-link :to="'/interviews/' + author.slug">{{ interview.titre }}</nuxt-link>
         </li>
       </ul>
     </div>

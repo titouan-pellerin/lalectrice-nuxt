@@ -8,7 +8,8 @@
   "devDependencies": {
     "@types/qs": "^6.9.7",
     "nuxt3": "latest",
-    "sass": "^1.43.4"
+    "sass": "^1.43.4",
+    "vue-showdown": "^3.1.0"
   },
   "dependencies": {
     "@nuxtjs/strapi": "^0.3.1",

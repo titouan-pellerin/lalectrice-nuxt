@@ -24,6 +24,9 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
 
+    const currentRoute = router.currentRoute.value;
+    console.log(currentRoute.meta);
+
     // if (route.meta.fromHistory) useNuxtApp().$removeBooks();
 
     let books = useBooks();

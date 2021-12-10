@@ -13,7 +13,10 @@
     <p v-if="book.collection_livre">Collection : {{ book.collection_livre.nom }}</p>
     <p v-if="book.date">Parution : {{ book.date }}</p>
     <p v-if="book.description">Description : {{ book.description }}</p>
-    <p v-if="book.editeur">Editeur : {{ book.editeur.nom }}</p>
+    <p v-if="book.editeur">
+      Editeur :
+      <nuxt-link :to="'/editeurs/' + book.editeur.slug">{{ book.editeur.nom }}</nuxt-link>
+    </p>
     <p>ISBN : {{ book.isbn }}</p>
     <div v-if="book.genres.length > 0">
       Genres :
