@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import { AsyncData } from "nuxt3/dist/app/composables/asyncData";
-import { defineComponent } from "vue";
 import { IInterview } from "~~/typings";
 
 export default defineComponent({
