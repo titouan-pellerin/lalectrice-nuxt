@@ -1,36 +1,36 @@
 import {
-  useOffset,
   useBooks,
-  useQuery,
-  useQueryString,
-} from "./../composables/books";
+  useBooksQueryString,
+  useBooksOffset,
+  useBooksQuery,
+} from "../composables/books";
 import { ILivre } from "~~/typings";
 import { defineNuxtPlugin } from "#app";
 import { stringify } from "qs";
-import { Ref } from "vue";
 
 export default defineNuxtPlugin((nuxtApp) => {
   const books = useBooks();
-  const offset = useOffset();
-  const query = useQuery();
-  const currentQueryString = useQueryString();
+  const booksOffset = useBooksOffset();
+  const booksQuery = useBooksQuery();
+  const currentBooksQueryString = useBooksQueryString();
 
   const config = useRuntimeConfig();
 
   nuxtApp.provide("fetchBooks", async () => {
     books.value.push(...(await fetchBooksData()));
 
-    offset.value += 20;
-    console.log(offset.value);
-
+    booksOffset.value += 20;
     return books;
   });
 
   nuxtApp.provide("searchBooks", async (searchQuery: string) => {
     searchQuery = searchQuery.trim();
 
-    if (!(currentQueryString.value === searchQuery) && searchQuery.length > 0) {
-      query.value = stringify({
+    if (
+      !(currentBooksQueryString.value === searchQuery) &&
+      searchQuery.length > 0
+    ) {
+      booksQuery.value = stringify({
         _limit: 20,
         _start: 0,
         _sort: "chronique.publication:DESC",
@@ -48,44 +48,33 @@ export default defineNuxtPlugin((nuxtApp) => {
           ],
         },
       });
-      offset.value = 0;
+      booksOffset.value = 0;
       books.value = await fetchBooksData();
-      offset.value = 20;
+      booksOffset.value = 20;
 
-      console.log(offset.value);
-
-      currentQueryString.value = searchQuery;
+      currentBooksQueryString.value = searchQuery;
     }
   });
 
   nuxtApp.provide("removeBooks", () => {
     books.value = [];
-    offset.value = 0;
-    query.value = stringify({
+    booksOffset.value = 0;
+    booksQuery.value = stringify({
       _limit: 20,
       _start: 0,
       _sort: "chronique.publication:DESC",
     });
-    console.log("here");
   });
 
   const fetchBooksData = async () => {
-    query.value = query.value.replace(
+    booksQuery.value = booksQuery.value.replace(
       /_start=\d{0,}/,
-      "_start=" + offset.value
+      "_start=" + booksOffset.value
     );
     const booksData = (await $fetch(
-      `${config.API_URL}/livres?${query.value}`
+      `${config.API_URL}/livres?${booksQuery.value}`
     )) as ILivre[];
 
     return booksData;
   };
 });
-
-declare module "#app" {
-  interface NuxtApp {
-    $fetchBooks(): Ref<ILivre[]>;
-    $searchBooks(searchQuery: string): void;
-    $removeBooks(): void;
-  }
-}

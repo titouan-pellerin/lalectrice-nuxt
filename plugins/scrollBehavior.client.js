@@ -4,9 +4,13 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.$router.options.scrollBehavior = (to, from, savedPosition) => {
     if (savedPosition) {
       to.meta.fromHistory = true;
-      return savedPosition;
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(savedPosition)
+        }, 200)
+      });
     } else {
-      return { top: 0 };
+      return { left: 0, top: 0 }
     }
   };
 });

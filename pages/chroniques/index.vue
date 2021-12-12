@@ -3,6 +3,7 @@
     <h1>Chroniques</h1>
     <input
       v-model="searchQuery"
+      ref="searchInput"
       type="text"
       placeholder="Rechercher une chronique par mot clé"
       @input="$searchBooks(searchQuery)"
@@ -17,23 +18,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { ref, defineComponent } from "vue";
 
 export default defineComponent({
   async setup() {
     const route = useRoute();
-    const router = useRouter();
+    const nuxtApp = useNuxtApp();
 
-    const currentRoute = router.currentRoute.value;
-    console.log(currentRoute.meta);
+    const previousQueryString = useBooksQueryString();
+    const searchInput = ref();
 
-    // if (route.meta.fromHistory) useNuxtApp().$removeBooks();
-
+    onMounted(() => {
+      if (!route.meta.fromHistory) {
+        nuxtApp.$removeBooks();
+        nuxtApp.$fetchBooks();
+      } else if (previousQueryString.value !== "") {
+        searchInput.value.value = previousQueryString.value;
+      }
+    });
     let books = useBooks();
     if (books.value.length === 0) {
       books = await useNuxtApp().$fetchBooks();
     }
-    return { books };
+
+    return { books, searchInput };
   },
   data() {
     return {

@@ -1,8 +1,8 @@
 <template>
   <div v-if="editor" class="editor">
     <h1>{{ editor.nom }}</h1>
-    <p v-if="editor.description">Description: {{ editor.description }}</p>
-    <a v-if="editor.lien">Lien: {{ editor.lien }}</a>
+    <p v-if="editor.description">Description : {{ editor.description }}</p>
+    <a v-if="editor.lien" :href="editor.lien" target="_blank">Site internet</a>
     <img v-if="editor.logo" :src="editor.logo.url" />
     <div>
       <h2>Livres chroniqués :</h2>

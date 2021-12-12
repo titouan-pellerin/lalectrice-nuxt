@@ -11,7 +11,7 @@
       </p>
     </div>
     <p v-if="book.collection_livre">Collection : {{ book.collection_livre.nom }}</p>
-    <p v-if="book.date">Parution : {{ book.date }}</p>
+    <p v-if="book.date">Parution : {{ new Date(book.date).toLocaleDateString() }}</p>
     <p v-if="book.description">Description : {{ book.description }}</p>
     <p v-if="book.editeur">
       Editeur :
@@ -22,11 +22,18 @@
       Genres :
       <p v-for="genre in book.genres" :key="genre.id">{{ genre.nom }}</p>
     </div>
+    <h3 v-if="book.coeur">Coup de coeur</h3>
     <img v-if="book.couverture" :src="book.couverture?.url" />
     <div v-if="book.chronique">
       <h1>Chronique :</h1>
-      <p>{{ book.chronique.contenu }}</p>
-      <p v-if="book.chronique.epinglee">Est à la une</p>
+      <h3 v-if="book.chronique.epinglee">Est à la une</h3>
+      <client-only>
+        <vue-showdown
+          class="content"
+          :markdown="book.chronique.contenu"
+          flavor="github"
+        ></vue-showdown>
+      </client-only>
       <p v-if="book.chronique.publication">
         Date de publication :
         {{ new Date(book.chronique.publication).toLocaleDateString() }}

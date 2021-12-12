@@ -8,6 +8,10 @@ export interface IInterview {
   titre: string;
   contenu: string;
   auteur?: IAuteur;
-  photo: any;
+  photo?: {
+    url: string;
+    caption?: string;
+  };
   date?: Date;
+  slug: string;
 }

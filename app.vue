@@ -18,3 +18,9 @@
     <NuxtPage />
   </div>
 </template>
+
+<style lang="scss">
+.content p {
+  white-space: break-spaces;
+}
+</style>
