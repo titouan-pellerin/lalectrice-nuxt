@@ -1,8 +1,9 @@
 <template>
   <nuxt-link :to="'/chroniques/' + book.slug">
     <img v-if="book.couverture" :src="book.couverture.url" />
-    <img v-else src="@/assets/img/placeholder.jpg" />
-    <h2>{{ book.titre }}</h2>
+    <img v-else src="@/assets/images/placeholder.jpg" />
+    <h2 v-if="title">{{ title }}</h2>
+    <h2 v-else>{{ book.titre }}</h2>
   </nuxt-link>
 </template>
 
@@ -15,6 +16,10 @@ export default defineComponent({
     book: {
       type: Object as PropType<ILivre>,
       required: true,
+    },
+    title: {
+      type: String,
+      required: false,
     },
   },
   setup() {},
